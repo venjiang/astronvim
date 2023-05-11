@@ -35,6 +35,11 @@ return {
       ["<leader>w"] = { "<cmd>HopWordCurrentLine<cr>", desc = "Go to any word current line" },
       ["<leader>/"] = { "<cmd>HopPattern<cr>", desc = "Search and go" },
       ["<leader>q"] = { "<cmd>HopWord<cr>", desc = "Go to any word in the current buffer" },
+      -- TODO
+      ["<leader>td"] = { "<cmd>TodoTelescope<cr>", desc = "Todo Telescope" },
+      ["<leader>tf"] = { "<cmd>TodoTrouble<cr>", desc = "Todo Trouble" },
+      ["<leader>tl"] = { "<cmd>TodoLocList<cr>", desc = "Todo LocList" },
+      ["<leader>tq"] = { "<cmd>TodoQuickFix<cr>", desc = "Todo QuickFix" },
     },
     t = {
       ["<C-t>"] = { "<cmd>ToggleTerm<cr>", desc = "Toggle terminal" },
@@ -52,7 +57,7 @@ return {
     -- dashboard
     {
       "goolord/alpha-nvim",
-      opts = function(_, opts) -- override the options using lazy.nvim
+      opts = function(_, opts)      -- override the options using lazy.nvim
         opts.section.header.val = { -- change the header section value
           "",
           "",
@@ -74,7 +79,13 @@ return {
       "folke/twilight.nvim",
       opts = function() require("twilight").setup {} end,
     },
-
+    -- todo
+    {
+      "folke/todo-comments.nvim",
+      event = "BufRead",
+      dependencies = "nvim-lua/plenary.nvim",
+      opts = function() require("todo-comments").setup {} end,
+    },
     -- hop
     {
       "phaazon/hop.nvim",
