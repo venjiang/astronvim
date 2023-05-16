@@ -2,6 +2,7 @@ return {
   opt = {
     timeoutlen = 100, -- Shorten key timeout length a little bit for which-key
     timeout = 300,
+    wrapscan = true, -- search wrap around
   },
   options = {
     opt = {
@@ -37,7 +38,11 @@ return {
     i = {},
   },
   -- lsp
-  lsp = {},
+  lsp = {
+    formatting = {
+      format_on_save = true, -- enable or disable automatic formatting on save
+    },
+  },
   -- plugins
   plugins = {
     -- dashboard
@@ -139,7 +144,19 @@ return {
       },
       ft = { "fugitive" },
     },
-
+    -- go
+    {
+      "ray-x/go.nvim",
+      dependencies = { -- optional packages
+        "ray-x/guihua.lua",
+        "neovim/nvim-lspconfig",
+        "nvim-treesitter/nvim-treesitter",
+      },
+      opts = function() require("go").setup() end,
+      event = { "CmdlineEnter" },
+      ft = { "go", "gomod" },
+      build = ':lua require("go.install").update_all_sync()', -- if you need to install/update all binaries
+    },
     -- others
   },
 }
