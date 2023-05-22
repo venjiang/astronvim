@@ -2,7 +2,7 @@ return {
   opt = {
     timeoutlen = 100, -- Shorten key timeout length a little bit for which-key
     timeout = 300,
-    wrapscan = true, -- search wrap around
+    wrapscan = true,  -- search wrap around
   },
   options = {
     opt = {
@@ -39,19 +39,23 @@ return {
   },
   -- lsp
   lsp = {
-    formatting = {
-      format_on_save = true, -- enable or disable automatic formatting on save
-    },
+    -- formatting = {
+    --   format_on_save = false, -- enable or disable automatic formatting on save
+    -- },
   },
   -- plugins
   plugins = {
     -- dashboard
     {
       "goolord/alpha-nvim",
-      opts = function(_, opts) -- override the options using lazy.nvim
+      opts = function(_, opts)      -- override the options using lazy.nvim
         opts.section.header.val = { -- change the header section value
-          "",
-          "",
+          "██╗   ██╗ ██████╗ ██╗      ██████╗ ",
+          "╚██╗ ██╔╝██╔═══██╗██║     ██╔═══██╗",
+          " ╚████╔╝ ██║   ██║██║     ██║   ██║",
+          "  ╚██╔╝  ██║   ██║██║     ██║   ██║",
+          "   ██║   ╚██████╔╝███████╗╚██████╔╝",
+          "   ╚═╝    ╚═════╝ ╚══════╝ ╚═════╝ ",
         }
         -- opts.section.buttons.val = {}
       end,
