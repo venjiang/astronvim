@@ -2,7 +2,7 @@ return {
   opt = {
     timeoutlen = 100, -- Shorten key timeout length a little bit for which-key
     timeout = 300,
-    wrapscan = true,  -- search wrap around
+    wrapscan = true, -- search wrap around
   },
   options = {
     opt = {
@@ -19,7 +19,7 @@ return {
   mappings = {
     n = {
       ["<leader>a"] = { "ggVG<cr>", desc = "Select all" },
-      ["<leader><cr>"] = { "<cmd>:nohl<cr>", desc = "No highlight" },
+      ["<leader><cr>"] = { "<cmd>nohl<cr>", desc = "No highlight" },
       ["<C-t>"] = { "<cmd>ToggleTerm<cr>", desc = "Toggle terminal" },
       ["<C-w>"] = { "<cmd>w!<cr>", desc = "Save" },
       ["<leader>r"] = { function() require("telescope.builtin").oldfiles() end, desc = "Find history" },
@@ -31,6 +31,7 @@ return {
         function() require("astronvim.utils.buffer").nav(-(vim.v.count > 0 and vim.v.count or 1)) end,
         desc = "Previous buffer",
       },
+      ["0"] = { "^" },
     },
     t = {
       ["<C-t>"] = { "<cmd>ToggleTerm<cr>", desc = "Toggle terminal" },
@@ -45,10 +46,12 @@ return {
   },
   -- plugins
   plugins = {
+    -- theme
+    { "projekt0n/github-nvim-theme" },
     -- dashboard
     {
       "goolord/alpha-nvim",
-      opts = function(_, opts)      -- override the options using lazy.nvim
+      opts = function(_, opts) -- override the options using lazy.nvim
         opts.section.header.val = { -- change the header section value
           "██╗   ██╗ ██████╗ ██╗      ██████╗ ",
           "╚██╗ ██╔╝██╔═══██╗██║     ██╔═══██╗",
@@ -148,6 +151,11 @@ return {
       },
       ft = { "fugitive" },
     },
+    -- diffview
+    {
+      "sindrets/diffview.nvim",
+      event = "BufRead",
+    },
     -- go
     {
       "ray-x/go.nvim",
@@ -160,6 +168,13 @@ return {
       event = { "CmdlineEnter" },
       ft = { "go", "gomod" },
       build = ':lua require("go.install").update_all_sync()', -- if you need to install/update all binaries
+    },
+    -- surround
+    {
+      "kylechui/nvim-surround",
+      version = "*", -- Use for stability; omit to use `main` branch for the latest features
+      event = "VeryLazy",
+      config = function() require("nvim-surround").setup {} end,
     },
     -- others
   },
