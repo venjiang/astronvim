@@ -160,15 +160,41 @@ return {
     {
       "sindrets/diffview.nvim",
       event = "BufRead",
-    },
-    {
-      "lewis6991/gitsigns.nvim",
       opts = function()
         require("astronvim.utils").set_mappings {
           n = {
-            ["<leader>gP"] = { "<cmd>Gitsigns preview_hunk<cr>", desc = "Preview Git hunk" },
+            ["<leader>go"] = { "<cmd>DiffviewOpen main<cr>", desc = "DiffviewOpen branch (main)" },
+            ["<leader>gO"] = { "<cmd>DiffviewOpen master<cr>", desc = "DiffviewOpen branch (master)" },
+            ["<leader>gq"] = { "<cmd>DiffviewClose<cr>", desc = "DiffviewClose" },
+          },
+        }
+      end,
+    },
+    {
+      "lewis6991/gitsigns.nvim",
+      config = function()
+        require("gitsigns").setup {
+          numhl = true,
+          current_line_blame = true,
+        }
+      end,
+      opts = function()
+        require("astronvim.utils").set_mappings {
+          n = {
             ["<leader>gp"] = { "<cmd>Gitsigns prev_hunk<cr>", desc = "Previous Git hunk" },
             ["<leader>gn"] = { "<cmd>Gitsigns next_hunk<cr>", desc = "Next Git hunk" },
+            ["<leader>gP"] = { "<cmd>Gitsigns preview_hunk<cr>", desc = "Preview Git hunk" },
+            ["<leader>gD"] = { "<cmd>Gitsigns toggle_deleted<cr>", desc = "Toggle Git deleted" },
+            ["<leader>gW"] = { "<cmd>Gitsigns toggle_word_diff<cr>", desc = "Toggle Git word diff" },
+            ["<leader>gH"] = { "<cmd>Gitsigns toggle_linehl<cr>", desc = "Toggle Git line highlight" },
+            ["<leader>gT"] = { "<cmd>Gitsigns toggle_signs<cr>", desc = "Toggle Git signs" },
+            -- ["<leader>gm"] = {
+            --   function() require("gitsigns").change_base { global = true } end,
+            --   desc = "Change Git base",
+            -- },
+            ["<leader>gm"] = { "<cmd>Gitsigns change_base main true<cr>", desc = "Change Git base (main)" },
+            ["<leader>ga"] = { "<cmd>Gitsigns change_base master true<cr>", desc = "Change Git base (master)" },
+            ["<leader>gr"] = { "<cmd>Gitsigns reset_base true<cr>", desc = "Reset Git base" },
           },
         }
       end,
