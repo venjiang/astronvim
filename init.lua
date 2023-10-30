@@ -46,6 +46,11 @@ return {
   },
   -- plugins
   plugins = {
+    -- init
+    init = {
+      -- disable better-escape
+      ["max397574/better-escape.nvim"] = { disable = true },
+    },
     -- theme
     { "projekt0n/github-nvim-theme" },
     -- dashboard
@@ -156,6 +161,18 @@ return {
       "sindrets/diffview.nvim",
       event = "BufRead",
     },
+    {
+      "lewis6991/gitsigns.nvim",
+      opts = function()
+        require("astronvim.utils").set_mappings {
+          n = {
+            ["<leader>gP"] = { "<cmd>Gitsigns preview_hunk<cr>", desc = "Preview Git hunk" },
+            ["<leader>gp"] = { "<cmd>Gitsigns prev_hunk<cr>", desc = "Previous Git hunk" },
+            ["<leader>gn"] = { "<cmd>Gitsigns next_hunk<cr>", desc = "Next Git hunk" },
+          },
+        }
+      end,
+    },
     -- go
     {
       "ray-x/go.nvim",
@@ -176,6 +193,7 @@ return {
       event = "VeryLazy",
       config = function() require("nvim-surround").setup {} end,
     },
+
     -- others
   },
 }
