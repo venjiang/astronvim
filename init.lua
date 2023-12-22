@@ -6,7 +6,7 @@ return {
   },
   options = {
     opt = {
-      foldcolumn = "0", -- hide foldcolumn
+      -- foldcolumn = "0", -- hide foldcolumn
     },
     g = {
       mapleader = ",", -- sets vim.g.mapleader
@@ -87,7 +87,7 @@ return {
     -- todo
     {
       "folke/todo-comments.nvim",
-      event = "BufRead",
+      event = "VeryLazy",
       dependencies = "nvim-lua/plenary.nvim",
       opts = function()
         require("todo-comments").setup()
@@ -159,7 +159,8 @@ return {
     -- diffview
     {
       "sindrets/diffview.nvim",
-      event = "BufRead",
+      event = "VeryLazy",
+      cmd = { "DiffviewOpen", "DiffviewClose" },
       opts = function()
         require("astronvim.utils").set_mappings {
           n = {
