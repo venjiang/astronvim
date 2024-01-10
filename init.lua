@@ -237,6 +237,11 @@ return {
         }
       end,
     },
+    -- ansible
+    {
+      "pearofducks/ansible-vim",
+      ft = { "yaml.ansible" },
+    },
     -- others
   },
 }
