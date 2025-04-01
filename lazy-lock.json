@@ -3,7 +3,6 @@
   "LuaSnip": { "branch": "master", "commit": "03c8e67eb7293c404845b3982db895d59c0d1538" },
   "SchemaStore.nvim": { "branch": "main", "commit": "e659e0c6ca06727ed898aaaeea3850f528898684" },
   "aerial.nvim": { "branch": "master", "commit": "3284a2cb858ba009c79da87d5e010ccee3c99c4d" },
-  "alpha-nvim": { "branch": "main", "commit": "de72250e054e5e691b9736ee30db72c65d560771" },
   "ansible-vim": { "branch": "master", "commit": "3329367d2e5f90d203c8d340c53fa83c60a1ad41" },
   "astrocommunity": { "branch": "main", "commit": "a5601293b2946b1e5be7bfa4ec713dc0beb343c1" },
   "astrocore": { "branch": "main", "commit": "5d6b00072ef226507d68ef88857aa522b126f7a8" },
