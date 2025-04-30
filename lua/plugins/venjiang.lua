@@ -53,6 +53,30 @@ return {
       },
     },
   },
+  {
+    "folke/snacks.nvim",
+    opts = {
+      dashboard = {
+        preset = {
+          header = table.concat({
+            "██╗   ██╗ ██████╗ ██╗      ██████╗ ",
+            "╚██╗ ██╔╝██╔═══██╗██║     ██╔═══██╗",
+            " ╚████╔╝ ██║   ██║██║     ██║   ██║",
+            "  ╚██╔╝  ██║   ██║██║     ██║   ██║",
+            "   ██║   ╚██████╔╝███████╗╚██████╔╝",
+            "   ╚═╝    ╚═════╝ ╚══════╝ ╚═════╝ ",
+          }, "\n"),
+        },
+        sections = {
+          { section = "header" },
+          { section = "keys", gap = 1 },
+          { icon = " ", title = "Recent Files", section = "recent_files", indent = 2, padding = { 2, 2 } },
+          { icon = " ", title = "Projects", section = "projects", indent = 2, padding = 2 },
+          { section = "startup" },
+        },
+      },
+    },
+  },
   -- You can disable default plugins as follows:
   { "max397574/better-escape.nvim", enabled = false },
   -- tree
@@ -368,13 +392,13 @@ return {
           __inherited_from = "openai",
           api_key_name = "QWEN_API_KEY",
           endpoint = "https://dashscope.aliyuncs.com/compatible-mode/v1",
-          model = "qwen-max-latest",
+          model = "qwen-turbo",
         },
         ["aliyun-qwen-coder"] = {
           __inherited_from = "openai",
           api_key_name = "QWEN_API_KEY",
           endpoint = "https://dashscope.aliyuncs.com/compatible-mode/v1",
-          model = "qwen2.5-coder-32b-instruct",
+          model = "qwen-coder-turbo",
         },
         ["aliyun-deepseek-v3"] = {
           __inherited_from = "openai",
