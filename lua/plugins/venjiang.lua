@@ -34,6 +34,10 @@ return {
         },
         g = { -- vim.g.<key>
           -- configure global vim variables (vim.g)
+          -- lsp = {
+          --   inlay_hints_enabled = false, -- disable inlay hints by default
+          --   inlay_hints = false,
+          -- },
         },
       },
       mappings = {
@@ -234,32 +238,33 @@ return {
   --   ft = { "yaml.ansible" },
   -- },
   -- astrolsp
-  -- {
-  --   "AstroNvim/astrolsp",
-  --   ---@type AstroLSPOpts
-  --   opts = {
-  --     ---@diagnostic disable: missing-fields
-  --     config = {
-  --       -- ansiblels
-  --       ansiblels = {
-  --         settings = {
-  --           ansible = {
-  --             ansible = {
-  --               useFullyQualifiedCollectionNames = false,
-  --             },
-  --             validation = {
-  --               enabled = true,
-  --               lint = {
-  --                 enabled = false,
-  --               },
-  --             },
-  --           },
-  --         },
-  --       },
-  --       -- others
-  --     },
-  --   },
-  -- },
+  {
+    "AstroNvim/astrolsp",
+    ---@type AstroLSPOpts
+    opts = {
+      -- Configuration table of features provided by AstroLSP
+      features = {
+        inlay_hints = false, -- enable/disable inlay hints on start
+      },
+      config = {
+        gopls = {
+          settings = {
+            gopls = {
+              hints = {
+                assignVariableTypes = false,
+                compositeLiteralFields = false,
+                compositeLiteralTypes = false,
+                constantValues = false,
+                functionTypeParameters = false,
+                parameterNames = false,
+                rangeVariableTypes = false,
+              },
+            },
+          },
+        },
+      },
+    },
+  },
   -- copilot
   -- {
   --   "github/copilot.vim",
@@ -345,9 +350,10 @@ return {
   -- },
   {
     "yetone/avante.nvim",
+    build = "make",
     event = "VeryLazy",
     lazy = false,
-    version = "*", -- Set this to "*" to always pull the latest release version, or set it to false to update to the latest code changes.
+    version = false,
     opts = {
       -- add any opts here
       -- openai
@@ -361,16 +367,7 @@ return {
       --   -- reasoning_effort = "high" -- only supported for reasoning models (o1, etc.)
       -- },
       provider = "copilot",
-      -- BUG: highlights bug
-      -- highlights = {
-      --   ---@type AvanteConflictHighlights
-      --   diff = {
-      --     current = "DiffChange",
-      --     incoming = "DiffAdd",
-      --   },
-      -- },
-      -- deepseek
-      vendors = {
+      providers = {
         -- deepseek
         deepseek = {
           __inherited_from = "openai",
@@ -420,14 +417,9 @@ return {
           model = "gpt-4o",
         },
       },
-      --
     },
-    -- if you want to build from source then do `make BUILD_FROM_SOURCE=true`
-    build = "make",
-    -- build = "powershell -ExecutionPolicy Bypass -File Build.ps1 -BuildFromSource false" -- for windows
     dependencies = {
       "nvim-treesitter/nvim-treesitter",
-      "stevearc/dressing.nvim",
       "nvim-lua/plenary.nvim",
       "MunifTanjim/nui.nvim",
       --- The below dependencies are optional,
@@ -435,6 +427,8 @@ return {
       "nvim-telescope/telescope.nvim", -- for file_selector provider telescope
       "hrsh7th/nvim-cmp", -- autocompletion for avante commands and mentions
       "ibhagwan/fzf-lua", -- for file_selector provider fzf
+      "stevearc/dressing.nvim", -- for input provider dressing
+      "folke/snacks.nvim", -- for input provider snacks
       "nvim-tree/nvim-web-devicons", -- or echasnovski/mini.icons
       "zbirenbaum/copilot.lua", -- for providers='copilot'
       {
