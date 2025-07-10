@@ -1,27 +1,19 @@
 -- if true then return {} end -- WARN: REMOVE THIS LINE TO ACTIVATE THIS FILE
---
--- local function local_llm_streaming_handler(chunk, line, assistant_output, bufnr, winid, F)
---   if not chunk then return assistant_output end
---   local tail = chunk:sub(-1, -1)
---   if tail:sub(1, 1) ~= "}" then
---     line = line .. chunk
---   else
---     line = line .. chunk
---     local status, data = pcall(vim.fn.json_decode, line)
---     if not status or not data.message.content then return assistant_output end
---     assistant_output = assistant_output .. data.message.content
---     F.WriteContent(bufnr, winid, data.message.content)
---     line = ""
---   end
---   return assistant_output
--- end
---
--- local function local_llm_parse_handler(chunk)
---   local assistant_output = chunk.message.content
---   return assistant_output
--- end
 
 return {
+  -- astroui
+  {
+    "AstroNvim/astroui",
+    ---@type AstroUIOpts
+    opts = {
+      colorscheme = "astrodark",
+      -- highlights = {
+      --   astrodark = {
+      --     Normal = { bg = "#000000" },
+      --   },
+      -- },
+    },
+  },
   -- astrocore
   {
     "AstroNvim/astrocore",
@@ -31,6 +23,7 @@ return {
         opt = { -- vim.opt.<key>
           wrapscan = true, -- search wrap around
           wrap = true,
+          -- showtabline = 2,
         },
         g = { -- vim.g.<key>
           -- configure global vim variables (vim.g)
@@ -194,7 +187,7 @@ return {
   -- surround
   {
     "kylechui/nvim-surround",
-    version = "*", -- Use for stability; omit to use `main` branch for the latest features
+    version = "main", -- Use for stability; omit to use `main` branch for the latest features
     event = "VeryLazy",
     config = function() require("nvim-surround").setup {} end,
   },
@@ -367,6 +360,7 @@ return {
       --   -- reasoning_effort = "high" -- only supported for reasoning models (o1, etc.)
       -- },
       provider = "copilot",
+      -- provider = "vivgrid",
       providers = {
         -- deepseek
         deepseek = {
@@ -414,7 +408,7 @@ return {
           __inherited_from = "openai",
           api_key_name = "VIVGRID_API_KEY",
           endpoint = "https://api.vivgrid.com/v1",
-          model = "gpt-4o",
+          model = "gpt-4.1",
         },
       },
     },
@@ -448,14 +442,14 @@ return {
           },
         },
       },
-      {
-        -- Make sure to set this up properly if you have lazy=true
-        "MeanderingProgrammer/render-markdown.nvim",
-        opts = {
-          file_types = { "markdown", "Avante" },
-        },
-        ft = { "markdown", "Avante" },
-      },
+      -- {
+      --   -- Make sure to set this up properly if you have lazy=true
+      --   "MeanderingProgrammer/render-markdown.nvim",
+      --   opts = {
+      --     file_types = { "markdown", "Avante" },
+      --   },
+      --   ft = { "markdown", "Avante" },
+      -- },
     },
   },
   -- others
