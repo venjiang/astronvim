@@ -72,6 +72,9 @@ return {
           { section = "startup" },
         },
       },
+      terminal = {
+        enabled = true,
+      },
     },
   },
   -- You can disable default plugins as follows:
@@ -492,24 +495,12 @@ return {
           end,
         },
       }
-      local function opencode_terminal_opts()
-        return vim.deepcopy(snacks_terminal_opts)
-      end
       ---@type opencode.Opts
       vim.g.opencode_opts = {
         server = {
-          start = function()
-            require("snacks.terminal").open(opencode_cmd, opencode_terminal_opts())
-          end,
-          stop = function()
-            local terminal = require("snacks.terminal").get(opencode_cmd, opencode_terminal_opts())
-            if terminal then
-              terminal:close()
-            end
-          end,
-          toggle = function()
-            require("snacks.terminal").toggle(opencode_cmd, opencode_terminal_opts())
-          end,
+          start = function() require("snacks.terminal").open(opencode_cmd, snacks_terminal_opts) end,
+          stop = function() require("snacks.terminal").get(opencode_cmd, snacks_terminal_opts):close() end,
+          toggle = function() require("snacks.terminal").toggle(opencode_cmd, snacks_terminal_opts) end,
         },
       }
 
