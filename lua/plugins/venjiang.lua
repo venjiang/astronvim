@@ -502,6 +502,13 @@ return {
           stop = function() require("snacks.terminal").get(opencode_cmd, snacks_terminal_opts):close() end,
           toggle = function() require("snacks.terminal").toggle(opencode_cmd, snacks_terminal_opts) end,
         },
+        provider = {
+          snacks = {
+            win = {
+              position = "bottom",
+            },
+          },
+        },
       }
 
       vim.o.autoread = true -- Required for `opts.events.reload`
