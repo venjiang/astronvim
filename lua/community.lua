@@ -14,5 +14,7 @@ return {
   { import = "astrocommunity.pack.typescript-all-in-one" },
   { import = "astrocommunity.pack.ansible" },
   { import = "astrocommunity.pack.python" },
+  -- { import = "astrocommunity.pack.java" },
+  -- { import = "astrocommunity.colorscheme.catppuccin" },
   -- import/override with your plugins folder
 }
