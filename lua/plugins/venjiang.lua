@@ -1,6 +1,27 @@
 -- if true then return {} end -- WARN: REMOVE THIS LINE TO ACTIVATE THIS FILE
 
 return {
+  {
+    "AstroNvim/astrocore",
+    opts = function(_, opts)
+      if not opts.treesitter then return end
+      -- Neovim 0.12 ships compatible parsers for these languages.
+      local builtin_parsers = {
+        c = true,
+        lua = true,
+        markdown = true,
+        markdown_inline = true,
+        query = true,
+        vim = true,
+        vimdoc = true,
+      }
+      opts.treesitter.auto_install = false
+      opts.treesitter.ensure_installed = vim.tbl_filter(
+        function(parser) return not builtin_parsers[parser] end,
+        opts.treesitter.ensure_installed
+      )
+    end,
+  },
   -- astroui
   {
     "AstroNvim/astroui",
@@ -109,7 +130,7 @@ return {
   },
   -- hop
   {
-    "phaazon/hop.nvim",
+    "smoka7/hop.nvim",
     event = "BufRead",
     keys = {
       { "<Leader>j", "<cmd>HopLine<cr>", desc = "Go to any line" },
