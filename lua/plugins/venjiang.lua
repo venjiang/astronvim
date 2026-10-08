@@ -20,6 +20,8 @@ return {
         function(parser) return not builtin_parsers[parser] end,
         opts.treesitter.ensure_installed
       )
+      opts.treesitter.ensure_installed =
+        require("astrocore").list_insert_unique(opts.treesitter.ensure_installed, { "sql" })
     end,
   },
   -- astroui
@@ -120,7 +122,10 @@ return {
   {
     "folke/todo-comments.nvim",
     event = "VeryLazy",
-    dependencies = "nvim-lua/plenary.nvim",
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+      { "folke/trouble.nvim", cmd = "Trouble", opts = {} },
+    },
     keys = {
       { "<Leader>td", "<cmd>TodoTelescope<cr>", desc = "Todo Telescope" },
       { "<Leader>tf", "<cmd>TodoTrouble<cr>", desc = "Todo Trouble" },
@@ -211,7 +216,7 @@ return {
   -- surround
   {
     "kylechui/nvim-surround",
-    version = "main", -- Use for stability; omit to use `main` branch for the latest features
+    branch = "main",
     event = "VeryLazy",
     config = function() require("nvim-surround").setup {} end,
   },
@@ -246,7 +251,11 @@ return {
       -- Keymap to open VenvSelector to pick a venv.
       { "<leader>vs", "<cmd>VenvSelect<cr>" },
       -- Keymap to retrieve the venv from a cache (the one previously used for the same project directory).
-      { "<leader>vc", "<cmd>VenvSelectCached<cr>" },
+      {
+        "<leader>vc",
+        function() require("venv-selector.cached_venv").retrieve() end,
+        desc = "Restore cached virtual environment",
+      },
     },
   },
   -- ansible
@@ -341,7 +350,21 @@ return {
           input = {}, -- Enhances `ask()`
           picker = { -- Enhances `select()`
             actions = {
-              opencode_send = function(...) return require("opencode").snacks_picker_send(...) end,
+              opencode_send = function(picker)
+                local selections = vim.tbl_map(
+                  function(selection)
+                    return selection.file
+                        and require("opencode").format {
+                          path = selection.file,
+                          from = selection.pos,
+                          to = selection.end_pos,
+                        }
+                      or selection.text
+                  end,
+                  picker:selected { fallback = true }
+                )
+                require("opencode").prompt(table.concat(selections, ", ") .. " ")
+              end,
             },
             win = {
               input = {
@@ -361,25 +384,12 @@ return {
         win = {
           position = "bottom",
           enter = false,
-          on_win = function(win)
-            -- Set up keymaps and cleanup for an arbitrary terminal
-            require("opencode.terminal").setup(win.win)
-          end,
         },
       }
       ---@type opencode.Opts
       vim.g.opencode_opts = {
         server = {
           start = function() require("snacks.terminal").open(opencode_cmd, snacks_terminal_opts) end,
-          stop = function() require("snacks.terminal").get(opencode_cmd, snacks_terminal_opts):close() end,
-          toggle = function() require("snacks.terminal").toggle(opencode_cmd, snacks_terminal_opts) end,
-        },
-        provider = {
-          snacks = {
-            win = {
-              position = "bottom",
-            },
-          },
         },
       }
 
@@ -389,7 +399,7 @@ return {
       vim.keymap.set(
         { "n", "x" },
         "<C-a>",
-        function() require("opencode").ask("@this: ", { submit = true }) end,
+        function() require("opencode").ask "@this: " end,
         { desc = "Ask opencode…" }
       )
       vim.keymap.set(
@@ -398,7 +408,12 @@ return {
         function() require("opencode").select() end,
         { desc = "Execute opencode action…" }
       )
-      vim.keymap.set({ "n", "t" }, "<C-;>", function() require("opencode").toggle() end, { desc = "Toggle opencode" })
+      vim.keymap.set(
+        { "n", "t" },
+        "<C-;>",
+        function() require("snacks.terminal").toggle(opencode_cmd, snacks_terminal_opts) end,
+        { desc = "Toggle opencode" }
+      )
 
       vim.keymap.set(
         { "n", "x" },
